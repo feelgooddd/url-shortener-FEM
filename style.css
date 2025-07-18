@@ -348,9 +348,12 @@ footer > h2 {
 }
 
 .links-card hr {
-border: 0.1px solid var(--clr-neutral-400);
-  margin: 0;
+  border: none;
+  height: 1px;
+  background-color: var(--clr-neutral-400);
+  margin: 8px 0; /* space above and below the line */
 }
+
 
 .remove-btn {
   position: absolute;

@@ -1,45 +1,55 @@
-document.getElementById("shorten-link").addEventListener("click", async () => {
-  let url = document.getElementById("shorten-link-input").value.trim();
-  const errorMsg = document.querySelector(".link-error");
-  errorMsg.classList.add("hidden");
+document
+  .getElementById("shorten-link")
+  .addEventListener("click", async function () {
+    let url = document.getElementById("shorten-link-input").value.trim();
 
-  if (!url) {
-    errorMsg.classList.remove("hidden");
-    return;
-  }
+    if (!url) return;
 
-  if (!/^https?:\/\//i.test(url)) {
-    url = "https://" + url;
-  }
-
-  try {
-    const response = await fetch("/.netlify/functions/shorten-url", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ url }),
-    });
-
-    const data = await response.json();
-
-    if (data.error) {
-      alert("Error: " + data.error);
-      return;
+    // Prepend https:// if missing
+    if (!/^https?:\/\//i.test(url)) {
+      url = "https://" + url;
     }
 
-    createLinkCard(url, data.result_url);
-  } catch (err) {
-    console.error("Failed to shorten:", err);
-    alert("Something went wrong.");
-  }
+    const list = document.getElementById("shortened-links");
+
+    try {
+      const response = await fetch("/.netlify/functions/shorten-url", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        alert("Error: " + (errorData.error || "Failed to shorten URL"));
+        return;
+      }
+
+      const data = await response.json();
+
+      createLinkCard(url, data.result_url, list);
+      document.getElementById("shorten-link-input").value = "";
+    } catch (error) {
+      console.error("Error shortening URL:", error);
+      alert("Something went wrong. Try again later.");
+    }
+  });
+
+document.getElementById("hamburger").addEventListener("click", () => {
+  const hamburger = document.getElementById("hamburger");
+  const dropdown = document.getElementById("dropdown");
+
+  hamburger.classList.toggle("active"); // animate hamburger to 'X'
+  dropdown.classList.toggle("hidden"); // show/hide dropdown menu
 });
 
-function createLinkCard(original, short) {
+function createLinkCard(original, short, list) {
   const card = document.createElement("div");
   card.className = "links-card";
 
-  // Clickable original URL link
+  // Original URL as clickable link
   const originalLink = document.createElement("a");
   originalLink.className = "original-url";
   originalLink.href = original;
@@ -47,7 +57,10 @@ function createLinkCard(original, short) {
   originalLink.rel = "noopener noreferrer";
   originalLink.textContent = original;
 
-  // Clickable shortened URL link
+  // Horizontal line
+  const hr = document.createElement("hr");
+
+  // Shortened URL as clickable link
   const shortLink = document.createElement("a");
   shortLink.className = "shortened-url";
   shortLink.href = short;
@@ -71,20 +84,19 @@ function createLinkCard(original, short) {
   });
 
   // Remove button
-const removeBtn = document.createElement("button");
-removeBtn.className = "remove-btn";
-removeBtn.textContent = "×";  // simple X
-removeBtn.title = "Remove";
-removeBtn.addEventListener("click", () => {
-  card.remove();
-});
+  const removeBtn = document.createElement("button");
+  removeBtn.className = "remove-btn";
+  removeBtn.textContent = "×";
+  removeBtn.title = "Remove";
+  removeBtn.addEventListener("click", () => {
+    card.remove();
+  });
 
-  // Append all elements to card
   card.appendChild(originalLink);
+  card.appendChild(hr);
   card.appendChild(shortLink);
   card.appendChild(copyBtn);
   card.appendChild(removeBtn);
 
-  // Add card to the list
-  document.getElementById("shortened-links").appendChild(card);
+  list.appendChild(card);
 }
