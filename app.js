@@ -106,9 +106,13 @@ function createLinkCard(original, short, list) {
 
   list.appendChild(card);
 }
-
-document.getElementById("shorten-link-input").addEventListener("keydown", (event) => {
+input.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
+    event.preventDefault();
+    // Call the shorten function here or trigger click
     document.getElementById("shorten-link").click();
+    // Remove focus from input to close keyboard on mobile
+    input.blur();
   }
 });
+
