@@ -106,6 +106,9 @@ function createLinkCard(original, short, list) {
 
   list.appendChild(card);
 }
+
+
+const input = document.getElementById("shorten-link-input")
 input.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     event.preventDefault();
