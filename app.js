@@ -49,6 +49,10 @@ function createLinkCard(original, short, list) {
   const card = document.createElement("div");
   card.className = "links-card";
 
+  // Create wrapper for original URL and remove button
+  const urlWrapper = document.createElement("div");
+  urlWrapper.className = "url-wrapper";
+
   // Original URL as clickable link
   const originalLink = document.createElement("a");
   originalLink.className = "original-url";
@@ -56,6 +60,19 @@ function createLinkCard(original, short, list) {
   originalLink.target = "_blank";
   originalLink.rel = "noopener noreferrer";
   originalLink.textContent = original;
+
+  // Remove button positioned top right inside wrapper
+  const removeBtn = document.createElement("button");
+  removeBtn.className = "remove-btn";
+  removeBtn.textContent = "×";
+  removeBtn.title = "Remove";
+  removeBtn.addEventListener("click", () => {
+    card.remove();
+  });
+
+  // Append original link and remove button to wrapper
+  urlWrapper.appendChild(originalLink);
+  urlWrapper.appendChild(removeBtn);
 
   // Horizontal line
   const hr = document.createElement("hr");
@@ -83,20 +100,11 @@ function createLinkCard(original, short, list) {
     });
   });
 
-  // Remove button
-  const removeBtn = document.createElement("button");
-  removeBtn.className = "remove-btn";
-  removeBtn.textContent = "×";
-  removeBtn.title = "Remove";
-  removeBtn.addEventListener("click", () => {
-    card.remove();
-  });
-
-  card.appendChild(originalLink);
+  // Append all elements to card
+  card.appendChild(urlWrapper);
   card.appendChild(hr);
   card.appendChild(shortLink);
   card.appendChild(copyBtn);
-  card.appendChild(removeBtn);
 
   list.appendChild(card);
 }
