@@ -39,23 +39,52 @@ function createLinkCard(original, short) {
   const card = document.createElement("div");
   card.className = "links-card";
 
-  card.innerHTML = `
-    <p class="original-url">${original}</p>
-    <p class="shortened-url">${short}</p>
-    <button class="copy-btn">Copy</button>
-  `;
+  // Clickable original URL link
+  const originalLink = document.createElement("a");
+  originalLink.className = "original-url";
+  originalLink.href = original;
+  originalLink.target = "_blank";
+  originalLink.rel = "noopener noreferrer";
+  originalLink.textContent = original;
 
-  const btn = card.querySelector(".copy-btn");
-  btn.addEventListener("click", () => {
+  // Clickable shortened URL link
+  const shortLink = document.createElement("a");
+  shortLink.className = "shortened-url";
+  shortLink.href = short;
+  shortLink.target = "_blank";
+  shortLink.rel = "noopener noreferrer";
+  shortLink.textContent = short;
+
+  // Copy button
+  const copyBtn = document.createElement("button");
+  copyBtn.className = "copy-btn";
+  copyBtn.textContent = "Copy";
+  copyBtn.addEventListener("click", () => {
     navigator.clipboard.writeText(short).then(() => {
-      btn.textContent = "Copied!";
-      btn.classList.add("copied");
+      copyBtn.textContent = "Copied!";
+      copyBtn.classList.add("copied");
       setTimeout(() => {
-        btn.textContent = "Copy";
-        btn.classList.remove("copied");
+        copyBtn.textContent = "Copy";
+        copyBtn.classList.remove("copied");
       }, 2000);
     });
   });
 
+  // Remove button
+  const removeBtn = document.createElement("button");
+  removeBtn.className = "remove-btn";
+  removeBtn.textContent = "Remove";
+  removeBtn.style.marginLeft = "10px";
+  removeBtn.addEventListener("click", () => {
+    card.remove();
+  });
+
+  // Append all elements to card
+  card.appendChild(originalLink);
+  card.appendChild(shortLink);
+  card.appendChild(copyBtn);
+  card.appendChild(removeBtn);
+
+  // Add card to the list
   document.getElementById("shortened-links").appendChild(card);
 }
