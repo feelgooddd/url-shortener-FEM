@@ -313,7 +313,6 @@ footer > h2 {
 .original-url,
 .shortened-url {
   text-decoration: none;
-  color: inherit; /* keeps text color consistent */
 }
 
 .copy-btn {
@@ -352,6 +351,7 @@ footer > h2 {
 border: 0.1px solid var(--clr-neutral-400);
   margin: 0;
 }
+
 .remove-btn {
   position: absolute;
   top: 8px;
