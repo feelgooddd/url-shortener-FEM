@@ -463,16 +463,14 @@ footer > h2 {
   justify-content: space-between;
   text-align: left;
   overflow: hidden;
-  margin: 8px 0;      /* vertical spacing between cards */
+  margin: 20px 0px;      /* vertical spacing between cards */
   box-sizing: border-box;
 }
 
 /* For tablets and above, limit width */
 @media (min-width: 600px) {
   .links-card {
-    max-width: 400px;
-    height: 180px;   /* fixed height for larger screens */
-    margin: 8px;     /* margin all sides */
+
   }
 }
 
