@@ -416,6 +416,8 @@ footer > h2 {
 .shortened-url {
   color: var(--clr-primary-400);
   font-weight: 500;
+  margin: 15px 0px;
+  display: inline-block; /* By default anchor tags are inline so margins wont apply properly unless inline-block or block. */
 }
 
 .copy-btn {
