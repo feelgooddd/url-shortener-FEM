@@ -411,7 +411,7 @@ footer > h2 {
   word-break: break-word;
   font-weight: 600;
   text-decoration: none;
-  color: inherit; /* keeps text color consistent */
+color: var(--clr-primary-800);
 }
 
 .shortened-url {
@@ -419,7 +419,7 @@ footer > h2 {
   word-break: break-word;
   font-weight: 500;
   text-decoration: none;
-  color: inherit;
+  color: var(--clr-primary-400)
 }
 
 .copy-btn {
