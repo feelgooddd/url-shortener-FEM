@@ -310,6 +310,12 @@ footer > h2 {
   font-weight: 500;
 }
 
+.original-url,
+.shortened-url {
+  text-decoration: none;
+  color: inherit; /* keeps text color consistent */
+}
+
 .copy-btn {
   background-color: var(--clr-primary-400);
   color: white;
@@ -329,18 +335,41 @@ footer > h2 {
   background-color: var(--clr-primary-800);
 }
 .links-card {
-  background-color: white;       /* White background */
-  border: none;                  /* Remove border */
-  border-radius: 8px;            /* Rounded corners */
+  position: relative; /* enable positioning of child elements */
+  padding: 20px 20px 20px 20px; /* leave space for button */
+  border-radius: 8px;
+  background-color: white;
   max-width: 400px;
   font-family: Arial, sans-serif;
   color: var(--clr-primary-800);
   display: flex;
   flex-direction: column;
-  gap: 10px;                    /* Space between child elements */
+  gap: 10px;
   text-align: left;
-  padding: 10px;
 }
+
+.remove-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  color: var(--clr-primary-800);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.remove-btn:hover {
+  background-color: var(--clr-primary-400);
+  color: white;
+}
+
 
 .links-card hr {
 border: 0.1px solid var(--clr-neutral-400);

@@ -71,13 +71,13 @@ function createLinkCard(original, short) {
   });
 
   // Remove button
-  const removeBtn = document.createElement("button");
-  removeBtn.className = "remove-btn";
-  removeBtn.textContent = "Remove";
-  removeBtn.style.marginLeft = "10px";
-  removeBtn.addEventListener("click", () => {
-    card.remove();
-  });
+const removeBtn = document.createElement("button");
+removeBtn.className = "remove-btn";
+removeBtn.textContent = "×";  // simple X
+removeBtn.title = "Remove";
+removeBtn.addEventListener("click", () => {
+  card.remove();
+});
 
   // Append all elements to card
   card.appendChild(originalLink);
