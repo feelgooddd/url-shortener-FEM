@@ -4,6 +4,30 @@ const input = document.getElementById("shorten-link-input");
 const shortenBtn = document.getElementById("shorten-link");
 const copyStatus = document.getElementById("copy-status");
 const linkError = document.getElementById("link-error");
+function isValidUrl(string) {
+  try {
+    const url = new URL(string);
+
+    // Domain name check (e.g., "example.com", "site.co.uk", etc.)
+    const domainPattern = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const hostname = url.hostname;
+
+    if (domainPattern.test(hostname)) {
+      return true;
+    } else {
+      console.log("Invalid domain:", hostname);
+      linkError.textContent = "Please enter a valid domain name.";
+      linkError.classList.remove("hidden");
+      return false;
+    }
+  } catch (err) {
+    console.log("Invalid URL format:", string);
+    linkError.textContent = "Please enter a valid URL.";
+    linkError.classList.remove("hidden");
+    return false;
+  }
+}
+
 
 shortenBtn.addEventListener("click", async function () {
   let url = input.value.trim();
@@ -14,6 +38,9 @@ shortenBtn.addEventListener("click", async function () {
   if (!/^https?:\/\//i.test(url)) {
     url = "https://" + url;
   }
+
+  // Validate the final URL before calling API
+  if (!isValidUrl(url)) return;
 
   const list = document.getElementById("shortened-links");
 
@@ -26,14 +53,17 @@ shortenBtn.addEventListener("click", async function () {
       body: JSON.stringify({ url }),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      linkError.classList.toggle("hidden");
-      return;
-    }
+ if (!response.ok) {
+  const errorData = await response.json().catch(() => ({}));
+  linkError.textContent = errorData.message || "An error occurred while shortening the URL.";
+  linkError.classList.remove("hidden");
+  return;
+}
+
 
     const data = await response.json();
 
+    // Only clear input after full success
     createLinkCard(url, data.result_url, list);
     input.value = "";
   } catch (error) {
@@ -41,6 +71,7 @@ shortenBtn.addEventListener("click", async function () {
     alert("Something went wrong. Try again later.");
   }
 });
+
 
 // Hamburger menu toggle and aria-expanded update
 hamburger.addEventListener("click", () => {

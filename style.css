@@ -507,3 +507,9 @@ footer > h2 {
   background-color: var(--clr-primary-800);
   color: white;
 }
+
+.link-error{
+  color: var(--clr-accent-400);
+  font-style: italic;
+  font-size: 0.895rem;
+}
