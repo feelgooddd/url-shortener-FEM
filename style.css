@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
   --clr-primary-400: hsl(180, 66%, 49%);
   --clr-primary-800: hsl(257, 27%, 26%);
   --clr-accent-400: hsl(0, 87%, 67%);
-  --clr-neutral-300: hsl(0,15%,92%);
+  --clr-neutral-300: hsl(0, 15%, 92%);
   --clr-neutral-400: hsl(0, 0%, 75%);
   --clr-neutral-500: hsl(257, 7%, 63%);
   --clr-neutral-600: hsl(255, 11%, 22%);
@@ -83,7 +83,7 @@ header {
   top: 100%;
   right: 5%;
   transform: translateY(10px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   z-index: 9;
 }
 
@@ -123,7 +123,7 @@ header {
 
 /* ===== DESKTOP STYLES ===== */
 @media (min-width: 868px) {
-  .dropdown-hr{
+  .dropdown-hr {
     display: none;
   }
   header {
@@ -137,7 +137,7 @@ header {
 
   /* Show dropdown menu as horizontal nav */
   .dropdown-menu {
-    display: flex !important;  /* override hidden */
+    display: flex !important; /* override hidden */
     flex-direction: row;
     background-color: transparent;
     position: static;
@@ -275,7 +275,7 @@ main {
   display: grid;
   grid-auto-rows: auto;
   justify-content: center;
-  gap: 6rem;  /* space between cards */
+  gap: 6rem; /* space between cards */
   margin-inline: 20px;
   margin-block: 50px;
   color: var(--clr-neutral-500);
@@ -295,9 +295,6 @@ main {
   z-index: 10;
 }
 
-
-
-
 /* Card image absolutely positioned centered on top */
 .card-image {
   position: absolute;
@@ -313,31 +310,25 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
-
 
 /* Vertical line from bottom of card image to top of next card image */
 .card:not(:last-child)::after {
   content: "";
   position: absolute;
-  top: 100%;      /* start line at bottom of card */
+  top: 100%; /* start line at bottom of card */
   left: 50%;
   transform: translateX(-50%);
   width: 8px;
-  height: 6rem;    /* equal to the gap between cards */
+  height: 6rem; /* equal to the gap between cards */
   background-color: var(--clr-primary-400);
   z-index: 5;
 }
-
-
 
 .card-details {
   padding: 20px;
   line-height: 1.25;
 }
-
-
 
 .card h3 {
   color: var(--clr-primary-800);
@@ -406,21 +397,26 @@ footer > h2 {
 .hidden {
   display: none;
 }
-
+.original-url,
+.shortened-url {
+  margin-right: 10px; /* gap between URL and remove button */
+  word-break: break-word;
+  text-decoration: none;
+}
 .original-url {
   color: var(--clr-primary-800);
-  word-break: break-word;
+
   font-weight: 600;
-  text-decoration: none;
-color: var(--clr-primary-800);
+
+  color: var(--clr-primary-800);
 }
 
 .shortened-url {
   color: var(--clr-primary-400);
-  word-break: break-word;
+
   font-weight: 500;
-  text-decoration: none;
-  color: var(--clr-primary-400)
+
+  color: var(--clr-primary-400);
 }
 
 .copy-btn {
@@ -444,20 +440,20 @@ color: var(--clr-primary-800);
 .links-card {
   position: relative;
   padding: 20px;
+  padding-right: ;
   border-radius: 8px;
   background-color: white;
   max-width: 400px;
-  width: 400px;     /* fixed width */
-  height: 180px;    /* or adjust this */
+  width: 400px; /* fixed width */
+  height: 180px; /* or adjust this */
   font-family: Arial, sans-serif;
   color: var(--clr-primary-800);
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* push content apart vertically */
   text-align: left;
-  overflow: hidden;   /* hide overflow instead of scroll */
+  overflow: hidden; /* hide overflow instead of scroll */
 }
-
 
 .links-card hr {
   border: 0.1px solid var(--clr-neutral-400);
