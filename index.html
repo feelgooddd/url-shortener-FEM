@@ -13,23 +13,60 @@
     />
 
     <title>Frontend Mentor | Shortly URL shortening API Challenge</title>
+    <meta
+      name="description"
+      content="Shorten your URLs quickly and easily with Shortly. Track performance and boost your brand with custom, short links."
+    />
 
     <link rel="stylesheet" href="style.css" />
     <script src="app.js" defer></script>
+
+    <style>
+      /* Visually hidden but accessible for screen readers */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    </style>
   </head>
   <body>
+    <div
+      aria-live="polite"
+      aria-atomic="true"
+      id="copy-status"
+      class="sr-only"
+    ></div>
+
     <header>
       <img src="images/logo.svg" alt="Shortly Logo" class="logo" />
 
       <!-- Hamburger for mobile -->
-      <div class="hamburger" id="hamburger">
+      <div
+        class="hamburger"
+        id="hamburger"
+        role="button"
+        tabindex="0"
+        aria-controls="dropdown"
+        aria-expanded="false"
+        aria-label="Toggle menu"
+      >
         <span></span>
         <span></span>
         <span></span>
       </div>
 
       <!-- Dropdown menu -->
-      <nav class="dropdown-menu hidden" id="dropdown">
+      <nav
+        class="dropdown-menu hidden"
+        id="dropdown"
+        aria-label="Primary Navigation"
+      >
         <a href="#">Features</a>
         <a href="#">Pricing</a>
         <a href="#">Resources</a>
@@ -42,7 +79,7 @@
     </header>
 
     <main>
-      <img src="images/illustration-working.svg" alt="Illustration" />
+      <img src="images/illustration-working.svg" alt="Illustration of working" />
       <div class="area info-area">
         <h1>More than just shorter links</h1>
         <p>
@@ -65,18 +102,44 @@
       </div>
 
       <div id="shortened-links">
-
+        <!-- Example link card for testing -->
+        <div class="links-card">
+          <div class="url-row">
+            <a
+              href="https://example.com"
+              class="original-url"
+              target="_blank"
+              rel="noopener noreferrer"
+              >https://example.comflkajsdkfjaksdlfjklasdjflsdjflk.adsjkflsdkf;sdljfk;sd90Ryan.com</a
+            >
+            <button
+              class="remove-btn"
+              title="Remove link"
+              aria-label="Remove shortened link"
+              >×</button
+            >
+          </div>
+          <hr />
+          <a
+            href="https://shrtco.de/xyz123"
+            class="shortened-url"
+            target="_blank"
+            rel="noopener noreferrer"
+            >https://shrtco.de/xyz123</a
+          >
+          <button class="copy-btn">Copy</button>
+        </div>
       </div>
 
-      <div class="statistics-area">
-        <h2>Advanced Statistics</h2>
+      <section class="statistics-area" aria-labelledby="statistics-title">
+        <h2 id="statistics-title">Advanced Statistics</h2>
         <p>
           Track how your links are performing across the web with our advanced
           statistics dashboard.
         </p>
-      </div>
+      </section>
 
-      <div class="cards-area">
+      <section class="cards-area" aria-label="Features Cards">
         <div class="card">
           <div class="card-image">
             <img
@@ -126,12 +189,12 @@
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="boost-area">
-        <h1>Boost your links today</h1>
+      <section class="boost-area" aria-labelledby="boost-title">
+        <h1 id="boost-title">Boost your links today</h1>
         <button class="get-started">Get Started</button>
-      </div>
+      </section>
     </main>
 
     <footer>

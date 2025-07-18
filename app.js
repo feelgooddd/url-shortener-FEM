@@ -1,48 +1,70 @@
-document
-  .getElementById("shorten-link")
-  .addEventListener("click", async function () {
-    let url = document.getElementById("shorten-link-input").value.trim();
+const hamburger = document.getElementById("hamburger");
+const dropdown = document.getElementById("dropdown");
+const input = document.getElementById("shorten-link-input");
+const shortenBtn = document.getElementById("shorten-link");
+const copyStatus = document.getElementById("copy-status");
 
-    if (!url) return;
+shortenBtn.addEventListener("click", async function () {
+  let url = input.value.trim();
 
-    // Prepend https:// if missing
-    if (!/^https?:\/\//i.test(url)) {
-      url = "https://" + url;
+  if (!url) return;
+
+  // Prepend https:// if missing
+  if (!/^https?:\/\//i.test(url)) {
+    url = "https://" + url;
+  }
+
+  const list = document.getElementById("shortened-links");
+
+  try {
+    const response = await fetch("/.netlify/functions/shorten-url", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ url }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      alert("Error: " + (errorData.error || "Failed to shorten URL"));
+      return;
     }
 
-    const list = document.getElementById("shortened-links");
+    const data = await response.json();
 
-    try {
-      const response = await fetch("/.netlify/functions/shorten-url", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ url }),
-      });
+    createLinkCard(url, data.result_url, list);
+    input.value = "";
+  } catch (error) {
+    console.error("Error shortening URL:", error);
+    alert("Something went wrong. Try again later.");
+  }
+});
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        alert("Error: " + (errorData.error || "Failed to shorten URL"));
-        return;
-      }
+// Hamburger menu toggle and aria-expanded update
+hamburger.addEventListener("click", () => {
+  hamburger.classList.toggle("active");
+  dropdown.classList.toggle("hidden");
 
-      const data = await response.json();
+  const expanded = hamburger.getAttribute("aria-expanded") === "true";
+  hamburger.setAttribute("aria-expanded", !expanded);
+});
 
-      createLinkCard(url, data.result_url, list);
-      document.getElementById("shorten-link-input").value = "";
-    } catch (error) {
-      console.error("Error shortening URL:", error);
-      alert("Something went wrong. Try again later.");
-    }
-  });
+// Enable keyboard toggle on hamburger for Enter and Space keys
+hamburger.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    hamburger.click();
+  }
+});
 
-document.getElementById("hamburger").addEventListener("click", () => {
-  const hamburger = document.getElementById("hamburger");
-  const dropdown = document.getElementById("dropdown");
-
-  hamburger.classList.toggle("active"); // animate hamburger to 'X'
-  dropdown.classList.toggle("hidden"); // show/hide dropdown menu
+// Trigger shorten on Enter key inside input, close mobile keyboard by blurring input
+input.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    shortenBtn.click();
+    input.blur();
+  }
 });
 
 function createLinkCard(original, short, list) {
@@ -61,11 +83,12 @@ function createLinkCard(original, short, list) {
   originalLink.rel = "noopener noreferrer";
   originalLink.textContent = original;
 
-  // Remove button
+  // Remove button with aria-label
   const removeBtn = document.createElement("button");
   removeBtn.className = "remove-btn";
   removeBtn.textContent = "×";
-  removeBtn.title = "Remove";
+  removeBtn.title = "Remove link";
+  removeBtn.setAttribute("aria-label", "Remove shortened link");
   removeBtn.addEventListener("click", () => {
     card.remove();
   });
@@ -84,7 +107,7 @@ function createLinkCard(original, short, list) {
   shortLink.rel = "noopener noreferrer";
   shortLink.textContent = short;
 
-  // Copy button
+  // Copy button with aria-live updates
   const copyBtn = document.createElement("button");
   copyBtn.className = "copy-btn";
   copyBtn.textContent = "Copy";
@@ -92,9 +115,12 @@ function createLinkCard(original, short, list) {
     navigator.clipboard.writeText(short).then(() => {
       copyBtn.textContent = "Copied!";
       copyBtn.classList.add("copied");
+      copyStatus.textContent = "Shortened URL copied to clipboard";
+
       setTimeout(() => {
         copyBtn.textContent = "Copy";
         copyBtn.classList.remove("copied");
+        copyStatus.textContent = "";
       }, 2000);
     });
   });
@@ -106,16 +132,3 @@ function createLinkCard(original, short, list) {
 
   list.appendChild(card);
 }
-
-
-const input = document.getElementById("shorten-link-input")
-input.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    // Call the shorten function here or trigger click
-    document.getElementById("shorten-link").click();
-    // Remove focus from input to close keyboard on mobile
-    input.blur();
-  }
-});
-
