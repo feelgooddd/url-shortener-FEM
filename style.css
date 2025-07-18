@@ -447,15 +447,15 @@ color: var(--clr-primary-800);
   border-radius: 8px;
   background-color: white;
   max-width: 400px;
-  width: 400px;       /* fixed width */
-  height: 180px;      /* fixed height - adjust as needed */
+  width: 400px;     /* fixed width */
+  height: 180px;    /* or adjust this */
   font-family: Arial, sans-serif;
   color: var(--clr-primary-800);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  justify-content: space-between; /* push content apart vertically */
   text-align: left;
-  overflow: auto;    /* add scrollbar if content overflows */
+  overflow: hidden;   /* hide overflow instead of scroll */
 }
 
 
