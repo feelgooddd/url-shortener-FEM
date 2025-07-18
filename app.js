@@ -106,3 +106,9 @@ function createLinkCard(original, short, list) {
 
   list.appendChild(card);
 }
+
+document.getElementById("shorten-link-input").addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    document.getElementById("shorten-link").click();
+  }
+});
