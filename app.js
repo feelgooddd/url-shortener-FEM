@@ -3,10 +3,11 @@ const dropdown = document.getElementById("dropdown");
 const input = document.getElementById("shorten-link-input");
 const shortenBtn = document.getElementById("shorten-link");
 const copyStatus = document.getElementById("copy-status");
+const linkError = document.getElementById("link-error");
 
 shortenBtn.addEventListener("click", async function () {
   let url = input.value.trim();
-
+  linkError.classList.add("hidden");
   if (!url) return;
 
   // Prepend https:// if missing
@@ -27,7 +28,7 @@ shortenBtn.addEventListener("click", async function () {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      alert("Error: " + (errorData.error || "Failed to shorten URL"));
+      linkError.classList.toggle("hidden");
       return;
     }
 
