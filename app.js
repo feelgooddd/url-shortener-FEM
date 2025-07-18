@@ -1,75 +1,61 @@
-document
-  .getElementById("shorten-link")
-  .addEventListener("click", async function () {
-    let url = document.getElementById("shorten-link-input").value.trim();
+document.getElementById("shorten-link").addEventListener("click", async () => {
+  let url = document.getElementById("shorten-link-input").value.trim();
+  const errorMsg = document.querySelector(".link-error");
+  errorMsg.classList.add("hidden");
 
-    if (!url) return;
+  if (!url) {
+    errorMsg.classList.remove("hidden");
+    return;
+  }
 
-    // Prepend https:// if missing
-    if (!/^https?:\/\//i.test(url)) {
-      url = "https://" + url;
+  if (!/^https?:\/\//i.test(url)) {
+    url = "https://" + url;
+  }
+
+  try {
+    const response = await fetch("/.netlify/functions/shorten-url", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ url }),
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      alert("Error: " + data.error);
+      return;
     }
 
-    const list = document.getElementById("shortened-links");
+    createLinkCard(url, data.result_url);
+  } catch (err) {
+    console.error("Failed to shorten:", err);
+    alert("Something went wrong.");
+  }
+});
 
-    try {
-      const response = await fetch("https://cleanuri.com/api/v1/shorten", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `url=${encodeURIComponent(url)}`,
-      });
+function createLinkCard(original, short) {
+  const card = document.createElement("div");
+  card.className = "links-card";
 
-      const data = await response.json();
+  card.innerHTML = `
+    <p class="original-url">${original}</p>
+    <p class="shortened-url">${short}</p>
+    <button class="copy-btn">Copy</button>
+  `;
 
-      if (data.error) {
-        alert("Error: " + data.error);
-        return;
-      }
-
-      // Create a new card
-      const card = document.createElement("div");
-      card.className = "links-card";
-
-      const originalLink = document.createElement("p");
-      originalLink.className = "original-url";
-      originalLink.textContent = url;
-
-      const shortLink = document.createElement("p");
-      shortLink.className = "shortened-url";
-      shortLink.textContent = data.result_url;
-
-      const copyBtn = document.createElement("button");
-      copyBtn.textContent = "Copy";
-      copyBtn.className = "copy-btn";
-      copyBtn.addEventListener("click", () => {
-        navigator.clipboard.writeText(data.result_url).then(() => {
-          copyBtn.textContent = "Copied!";
-          copyBtn.classList.add("copied");
-          setTimeout(() => {
-            copyBtn.textContent = "Copy";
-            copyBtn.classList.remove("copied");
-          }, 2000);
-        });
-      });
-
-      card.appendChild(originalLink);
-      card.appendChild(shortLink);
-      card.appendChild(copyBtn);
-
-      list.appendChild(card);
-    } catch (error) {
-      console.error("Error shortening URL:", error);
-      alert("Something went wrong. Try again later.");
-    }
+  const btn = card.querySelector(".copy-btn");
+  btn.addEventListener("click", () => {
+    navigator.clipboard.writeText(short).then(() => {
+      btn.textContent = "Copied!";
+      btn.classList.add("copied");
+      setTimeout(() => {
+        btn.textContent = "Copy";
+        btn.classList.remove("copied");
+      }, 2000);
+    });
   });
 
-
-  document.getElementById("hamburger").addEventListener("click", () => {
-  const hamburger = document.getElementById("hamburger");
-  const dropdown = document.getElementById("dropdown");
-  
-  hamburger.classList.toggle("active");        // animate hamburger to 'X'
-  dropdown.classList.toggle("hidden");          // show/hide dropdown menu
-});
+  document.getElementById("shortened-links").appendChild(card);
+}
