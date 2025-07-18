@@ -24,18 +24,21 @@ img {
   width: 100%;
 }
 
+/* ===== HEADER ===== */
 header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 40px 20px;
+  position: relative;
 }
 
-header img {
+/* Logo */
+.logo {
   width: 128px;
 }
 
-/* Hamburger menu - mobile */
+/* Hamburger menu */
 .hamburger {
   width: 30px;
   height: 22px;
@@ -54,7 +57,6 @@ header img {
   transition: 0.3s ease-in-out;
 }
 
-/* Animate to 'X' when active */
 .hamburger.active span:nth-child(1) {
   transform: translateY(9px) rotate(45deg);
 }
@@ -67,11 +69,7 @@ header img {
   transform: translateY(-9px) rotate(-45deg);
 }
 
-.menu-container {
-  position: relative;
-}
-
-/* Dropdown menu mobile */
+/* Dropdown menu - mobile style */
 .dropdown-menu {
   border-radius: 12px;
   background-color: var(--clr-primary-800);
@@ -82,9 +80,10 @@ header img {
   gap: 1rem;
   width: 90%;
   position: absolute;
-  transform: translateY(75%);
-  left: 50%;
-  transform: translate(-50%, 75%);
+  top: 100%;
+  right: 5%;
+  transform: translateY(10px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
   z-index: 9;
 }
 
@@ -92,22 +91,21 @@ header img {
   color: white;
   text-decoration: none;
   font-family: "Poppins", serif;
-  padding-bottom: 10px;
   font-weight: 600;
   font-size: 1.125rem;
+  padding-bottom: 10px;
 }
 
-.dropdown-menu a:nth-child(5) {
+.dropdown-menu a:nth-child(4) {
   margin-top: 10px;
 }
 
-hr {
+.dropdown-hr {
   width: 100%;
   border-color: var(--clr-neutral-700);
-  border-style: solid;
-  border-width: 0.5px 0 0 0;
 }
 
+/* Sign up button in dropdown */
 .sign-up {
   background-color: var(--clr-primary-400);
   color: white;
@@ -118,6 +116,58 @@ hr {
   cursor: pointer;
 }
 
+/* Hidden class */
+.hidden {
+  display: none;
+}
+
+/* ===== DESKTOP STYLES ===== */
+@media (min-width: 868px) {
+  .dropdown-hr{
+    display: none;
+  }
+  header {
+    justify-content: space-between;
+  }
+
+  /* Hide hamburger on desktop */
+  .hamburger {
+    display: none;
+  }
+
+  /* Show dropdown menu as horizontal nav */
+  .dropdown-menu {
+    display: flex !important;  /* override hidden */
+    flex-direction: row;
+    background-color: transparent;
+    position: static;
+    width: auto;
+    padding: 0;
+    gap: 40px;
+    box-shadow: none;
+    transform: none;
+    align-items: center;
+  }
+
+  .dropdown-menu a {
+    color: var(--clr-neutral-700);
+    font-weight: 600;
+    padding: 0;
+  }
+
+  /* Push login and signup to the right */
+  .dropdown-menu a:nth-last-child(2) {
+    margin-left: auto;
+  }
+
+  .sign-up {
+    border-radius: 24px;
+    padding: 8px 24px;
+    font-size: 1rem;
+  }
+}
+
+/* ===== MAIN AND OTHER ELEMENTS ===== */
 main {
   background-color: var(--clr-neutral-300);
   font-family: "Poppins", Arial, Helvetica, sans-serif;
@@ -150,7 +200,6 @@ main {
   padding: 12px;
   font-size: 1.125rem;
   width: 150px;
-  cursor: pointer;
 }
 
 .info-area .get-started {
@@ -200,7 +249,6 @@ main {
   color: white;
   font-family: "Poppins";
   font-size: 1.2rem;
-  cursor: pointer;
 }
 
 #shortened-links {
@@ -223,33 +271,72 @@ main {
 }
 
 .cards-area {
-  color: var(--clr-neutral-500);
-  margin-inline: 20px;
   display: grid;
-  gap: 50px;
+  grid-auto-rows: auto;
+  justify-content: center;
+  gap: 6rem;  /* space between cards */
+  margin-inline: 20px;
   margin-block: 50px;
+  color: var(--clr-neutral-500);
+  position: relative;
 }
 
 .card {
+  position: relative;
   background-color: white;
-  display: grid;
   border-radius: 4px;
+  padding: 4rem 2rem 2rem; /* space for top image */
+  max-width: 400px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  display: grid;
   justify-items: center;
   text-align: center;
+  z-index: 10;
 }
+
+
+
+
+/* Card image absolutely positioned centered on top */
+.card-image {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--clr-neutral-600);
+  padding: 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+/* Vertical line from bottom of card image to top of next card image */
+.card:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 100%;      /* start line at bottom of card */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 6rem;    /* equal to the gap between cards */
+  background-color: var(--clr-primary-400);
+  z-index: 5;
+}
+
+
 
 .card-details {
   padding: 20px;
   line-height: 1.25;
 }
 
-.card-image {
-  width: 64px;
-  border-radius: 50%;
-  background-color: var(--clr-neutral-600);
-  padding: 20px;
-  transform: translateY(-50%);
-}
+
 
 .card h3 {
   color: var(--clr-primary-800);
@@ -314,29 +401,9 @@ footer > h2 {
   list-style: none;
 }
 
-/* Hide dropdown menu on load */
+/* LINKS CARD */
 .hidden {
   display: none;
-}
-
-/* Links card styles */
-.links-card {
-  position: relative;
-  padding: 20px;
-  border-radius: 8px;
-  background-color: white;
-  max-width: 400px;
-  font-family: Arial, sans-serif;
-  color: var(--clr-primary-800);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  text-align: left;
-}
-
-.links-card hr {
-  border: 0.1px solid var(--clr-neutral-400);
-  margin: 0;
 }
 
 .original-url {
@@ -344,6 +411,7 @@ footer > h2 {
   word-break: break-word;
   font-weight: 600;
   text-decoration: none;
+  color: inherit; /* keeps text color consistent */
 }
 
 .shortened-url {
@@ -351,6 +419,7 @@ footer > h2 {
   word-break: break-word;
   font-weight: 500;
   text-decoration: none;
+  color: inherit;
 }
 
 .copy-btn {
@@ -371,7 +440,25 @@ footer > h2 {
   background-color: var(--clr-primary-800);
 }
 
-/* Remove button */
+.links-card {
+  position: relative; /* enable positioning of child elements */
+  padding: 20px;
+  border-radius: 8px;
+  background-color: white;
+  max-width: 400px;
+  font-family: Arial, sans-serif;
+  color: var(--clr-primary-800);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.links-card hr {
+  border: 0.1px solid var(--clr-neutral-400);
+  margin: 0;
+}
+
 .remove-btn {
   position: absolute;
   top: 8px;
@@ -396,57 +483,4 @@ footer > h2 {
 .remove-btn:hover {
   background-color: var(--clr-primary-800);
   color: white;
-}
-
-/* ================== */
-/* Desktop (tablet and up) styles */
-/* ================== */
-
-@media (min-width: 768px) {
-  header {
-    padding: 40px 60px;
-  }
-
-  /* Hide hamburger on desktop */
-  .hamburger {
-    display: none;
-  }
-
-  /* Show dropdown menu as horizontal nav */
-  .dropdown-menu {
-    position: static;
-    flex-direction: row;
-    gap: 40px;
-    background-color: transparent;
-    padding: 0;
-    width: auto;
-    transform: none;
-    justify-content: flex-end;
-    align-items: center;
-  }
-
-  .dropdown-menu.hidden {
-    display: flex !important; /* always show on desktop */
-  }
-
-  .dropdown-menu a {
-    color: var(--clr-neutral-700);
-    font-weight: 600;
-    font-size: 1rem;
-    padding-bottom: 0;
-    font-family: "Poppins", serif;
-  }
-
-  hr {
-    display: none;
-  }
-
-  .sign-up {
-    border-radius: 24px;
-    padding: 10px 24px;
-    background-color: var(--clr-primary-400);
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-  }
 }

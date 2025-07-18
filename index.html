@@ -18,26 +18,29 @@
     <script src="app.js" defer></script>
   </head>
   <body>
-    <header>
-      <img src="images/logo.svg" alt="Shortly Logo" />
-      <div class="menu-container">
-        <div class="hamburger" id="hamburger">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-      <nav class="dropdown-menu hidden" id="dropdown">
-        <a href="#">Features</a>
-        <a href="#">Pricing</a>
-        <a href="#">Resources</a>
+<header>
+  <img src="images/logo.svg" alt="Shortly Logo" class="logo" />
 
-        <hr />
+  <!-- Hamburger for mobile -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 
-        <a href="#">Login</a>
-        <button class="sign-up">Sign Up</button>
-      </nav>
-    </header>
+  <!-- Dropdown menu -->
+  <nav class="dropdown-menu hidden" id="dropdown">
+    <a href="#">Features</a>
+    <a href="#">Pricing</a>
+    <a href="#">Resources</a>
+
+    <hr class="dropdown-hr"/>
+
+    <a href="#">Login</a>
+    <button class="sign-up">Sign Up</button>
+  </nav>
+</header>
+
 
     <main>
       <img src="images/illustration-working.svg" alt="Illustration" />
